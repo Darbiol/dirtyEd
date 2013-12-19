@@ -584,17 +584,28 @@ directory.CustFieldView = Backbone.View.extend({
         var temp = false;
         var flag = 0;
         isValid = isValid && tz_err_inline("#lableParam", isNullOrWhiteSpace($('#lableParam').val()), "Please fill up empty field.");//check label 
-        if (getIndexById($("#fieldTypeDDownId").val()).mult == 1)
+        if (getIndexById($("#fieldTypeDDownId").val()).mult == 1){
             isValid = isValid && tz_err_inline("#valxx", isNullOrWhiteSpace($('#valxx').val()), "Please fill up empty field.");// check the first value
-            
+           
+            console.log('more than 1');
             $('#addValues').find("input[type='text']").each(function(i){
                 var chk = isNullOrWhiteSpace($(this).val());
                 temp = isNullOrWhiteSpace($(this).val()) || temp;
                 var r = $(this).find('input[type=text]')
+                console.log(i);
+                if(i>=0){// if multiple
+                    flag=1;
+                }
             });
-            tz_err_inline('#valxx', temp, "Please fill up empty field.");// check the first value
-                
-            isValid = isValid && !temp;
+        }
+        
+        var def_val = isValid && !temp;
+        if(flag ==1){
+            tz_err_inline('#valxx', !def_val, "Please fill up empty field.");// check the first value
+        }
+              
+        isValid = isValid && !temp;        
+            
             
         if (isValid) {
             //PERFORM SAVE HERE
